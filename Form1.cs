@@ -21,37 +21,44 @@ namespace Calculate_Invoice
         
         private void calculateTotal()
         {
-            // get the subtotal amount from the subtotal text box
-
-            decimal subTotal = Convert.ToDecimal(txt_subTotal.Text);
-
-            // set the discountPercent variable based on the value of the subtotal variable
-
-            decimal discountPercent = 0m; //the m indicate a decimal value
-            if (subTotal >= 500)
+            if(txt_subTotal.Text != "")
             {
-                discountPercent = .2m;
+                // get the subtotal amount from the subtotal text box
+
+                decimal subTotal = Convert.ToDecimal(txt_subTotal.Text);
+
+                // set the discountPercent variable based on the value of the subtotal variable
+
+                decimal discountPercent = 0m; //the m indicate a decimal value
+                if (subTotal >= 500)
+                {
+                    discountPercent = .2m;
+                }
+                else if (subTotal >= 250 && subTotal < 500)
+                {
+                    discountPercent = .15m;
+                }
+                else if (subTotal >= 100 && subTotal < 250)
+                {
+                    discountPercent = .1m;
+                }
+
+                // calculate and assign the values for the discountAmount and invoiceTotal variable
+                decimal discountAmount = subTotal * discountPercent;
+                decimal invoiceTotal = subTotal - discountAmount;
+
+                // format the values and display them in their text boxes 
+                txtDiscountPercent.Text = discountPercent.ToString("p1"); // p1 = percent format with 1 decimal place
+                txtDiscountAmount.Text = discountAmount.ToString("c"); // c = currenct format 
+                txtTotal.Text = invoiceTotal.ToString("c");
+
+                // move the focus to the subTotal text box 
+                txt_subTotal.Focus();
             }
-            else if (subTotal >= 250 && subTotal < 500)
+            else
             {
-                discountPercent = .15m;
+                MessageBox.Show("Sub Total Can Empty Field");
             }
-            else if (subTotal >= 100 && subTotal < 250)
-            {
-                discountPercent = .1m;
-            }
-
-            // calculate and assign the values for the discountAmount and invoiceTotal variable
-            decimal discountAmount = subTotal * discountPercent;
-            decimal invoiceTotal = subTotal - discountAmount;
-
-            // format the values and display them in their text boxes 
-            txtDiscountPercent.Text = discountPercent.ToString("p1"); // p1 = percent format with 1 decimal place
-            txtDiscountAmount.Text = discountAmount.ToString("c"); // c = currenct format 
-            txtTotal.Text = invoiceTotal.ToString("c");
-
-            // move the focus to the subTotal text box 
-            txt_subTotal.Focus();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -97,5 +104,12 @@ namespace Calculate_Invoice
             calculateTotal();
         }
 
+        private void txtNumberOnly(object sender, KeyPressEventArgs e)
+        {
+            if(!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)){
+                e.Handled = true;
+                MessageBox.Show("Sub Total Can Be Char");
+            }
+        }
     }
 }

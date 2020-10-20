@@ -86,6 +86,7 @@
             this.txt_subTotal.Size = new System.Drawing.Size(202, 22);
             this.txt_subTotal.TabIndex = 4;
             this.txt_subTotal.TextChanged += new System.EventHandler(this.txt_subTotal_TextChanged);
+            this.txt_subTotal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumberOnly);
             // 
             // txtDiscountPercent
             // 
